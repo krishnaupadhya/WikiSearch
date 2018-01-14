@@ -8,7 +8,7 @@
 
         <variable
             name="itemPageViewModel"
-            type="com.shop.food.food.viewmodel.ItemPageViewModel" />
+            type="com.search.wiki.home.viewmodel.ItemPageViewModel" />
     </data>
 
     <android.support.v7.widget.CardView

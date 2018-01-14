@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.shop.food">
+    package="com.search.wiki">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,7 +13,7 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
     <application
-        android:name=".app.FoodShopApplication"
+        android:name="com.search.wiki.app.WikiSearchApplication"
         android:allowBackup="true"
         android:icon="@drawable/icn_wiki"
         android:label="@string/app_name"
@@ -23,7 +23,7 @@
         android:windowSoftInputMode="stateHidden">
 
         <activity
-            android:name=".food.view.HomeActivity"
+            android:name="com.search.wiki.home.view.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
 
@@ -35,7 +35,7 @@
             <!-- </intent-filter> -->
 
         </activity>
-        <activity android:name=".common.view.SplashActivity">
+        <activity android:name="com.search.wiki.common.view.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

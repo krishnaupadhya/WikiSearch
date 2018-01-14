@@ -8,7 +8,7 @@
 
         <variable
             name="homeViewModel"
-            type="com.shop.food.food.viewmodel.HomeActivityViewModel" />
+            type="com.search.wiki.home.viewmodel.HomeActivityViewModel" />
     </data>
 
     <RelativeLayout
