@@ -65,13 +65,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
 
-    //firebase google login
-    compile 'com.google.firebase:firebase-auth:11.0.2'
-    compile 'com.google.android.gms:play-services-auth:11.0.2'
-
-    //location API
-    compile 'com.google.android.gms:play-services:11.0.2'
-
     testCompile 'junit:junit:4.12'
 
     compile 'com.android.support:multidex:1.0.1'
@@ -81,7 +74,6 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:2.8"
     provided 'javax.annotation:jsr250-api:1.0'
     compile 'javax.inject:javax.inject:1'
-
 
 
 }

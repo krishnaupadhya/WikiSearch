@@ -6,6 +6,7 @@ import android.app.Application;
 import android.app.Fragment;
 
 import com.shop.food.model.FoodInfo;
+import com.shop.food.model.Pages;
 
 import java.util.Hashtable;
 
@@ -83,7 +84,7 @@ public class DatabaseController {
     }
 
 
-    public RealmResults<FoodInfo> getArticleByCheckout( ) {
+    public RealmResults<FoodInfo> getArticleByCheckout() {
         RealmResults<FoodInfo> foodItems = realm.where(FoodInfo.class).greaterThan("quantity", 0).findAll();
 
         return foodItems;
@@ -101,5 +102,10 @@ public class DatabaseController {
         //realm.beginTransaction();
         realm.copyToRealmOrUpdate(realmObject);
         //realm.commitTransaction();
+    }
+
+    public RealmResults<Pages> getPagesFromDb() {
+        RealmResults<Pages> pagesList = realm.where(Pages.class).findAll();
+        return pagesList;
     }
 }

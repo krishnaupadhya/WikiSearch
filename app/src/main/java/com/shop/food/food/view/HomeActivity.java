@@ -6,44 +6,32 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.shop.food.R;
 import com.shop.food.common.view.BaseActivity;
 import com.shop.food.databinding.HomeActivityBinding;
-import com.shop.food.event.NewsClickEvent;
+import com.shop.food.event.SearchSuggestionClicked;
 import com.shop.food.food.adapters.PageListAdapter;
-import com.shop.food.food.listener.HomeListener;
-import com.shop.food.food.viewmodel.HomeActivityViewModel;
+import com.shop.food.food.view.fragment.HomeTabFragment;
 import com.shop.food.interfaces.onSearchListener;
 import com.shop.food.interfaces.onSimpleSearchActionsListener;
-import com.shop.food.model.Pages;
-import com.shop.food.model.WikiList;
-import com.shop.food.utility.DialogUtility;
 import com.shop.food.widget.MaterialSearchView;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.ArrayList;
 
 
 /**
  * Created by Krishna Upadhya on 9/9/2017.
  */
 
-public class HomeActivity extends BaseActivity implements onSimpleSearchActionsListener, onSearchListener, HomeListener {
+public class HomeActivity extends BaseActivity implements onSimpleSearchActionsListener, onSearchListener {
 
-    private HomeActivityViewModel homeViewModel;
-    private PageListAdapter adapter;
     private HomeActivityBinding homeActivityBinding;
 
     private boolean mSearchViewAdded = false;
@@ -52,16 +40,14 @@ public class HomeActivity extends BaseActivity implements onSimpleSearchActionsL
 
     private MenuItem searchItem;
     private boolean searchActive = false;
-    private View rootView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initBinding();
-        fetchCachedData();
         initToolBar();
         initView();
-        EventBus.getDefault().register(this);
+       // EventBus.getDefault().register(this);
     }
 
     private void initView() {
@@ -84,51 +70,26 @@ public class HomeActivity extends BaseActivity implements onSimpleSearchActionsL
                 }
             });
         }
-    }
-
-    private void fetchCachedData() {
-
+        addHomeFragment();
     }
 
     @Override
     protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
+        //EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
     private void initBinding() {
         homeActivityBinding = DataBindingUtil.setContentView(this, R.layout.home_activity);
-        homeViewModel = new HomeActivityViewModel(this, this);
-        homeActivityBinding.setHomeViewModel(homeViewModel);
     }
 
     private void initToolBar() {
         setSupportActionBar(homeActivityBinding.appBarHome.toolbar);
     }
 
-
     @Override
     public void onBackPressed() {
-
         super.onBackPressed();
-    }
-
-
-    private void setSearchAdapter(ArrayList<Pages> pagesArrayList) {
-        if (pagesArrayList == null || (pagesArrayList != null && pagesArrayList.size() == 0)) {
-            homeViewModel.setIsNewsListListVisible(false);
-        } else {
-            homeViewModel.setIsNewsListListVisible(true);
-            if (adapter == null) {
-                adapter = new PageListAdapter(pagesArrayList);
-                homeActivityBinding.listNews.setAdapter(adapter);
-                homeActivityBinding.listNews.setLayoutManager(new LinearLayoutManager(this));
-                homeActivityBinding.listNews.setItemAnimator(new DefaultItemAnimator());
-            } else {
-                adapter.updateNewsList(pagesArrayList);
-            }
-        }
-
     }
 
     @Override
@@ -158,24 +119,18 @@ public class HomeActivity extends BaseActivity implements onSimpleSearchActionsL
         }, 200);
     }
 
-
-    @Override
-    public void onSearchResultSuccess(WikiList wikiList) {
-        ArrayList<Pages> pages = new ArrayList<>();
-        pages.addAll(wikiList.getQuery().getPages());
-        setSearchAdapter(pages);
-    }
+    public void addHomeFragment() {
+        if (homeActivityBinding.homeFrame != null) {
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onNewsClickEvent(NewsClickEvent event) {
-        if (event != null) {
-//            Intent intent = new Intent(this, DetailsActivity.class);
-//            intent.putExtra(Constants.KEY_INTENT_NEWS_POSITION, event.getArticle().getArticleId());
-//            startActivity(intent);
+            // Create a new Fragment to be placed in the activity layout
+            Fragment firstFragment = HomeTabFragment.newInstance();
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.home_frame, firstFragment, HomeTabFragment.class.getSimpleName()).commit();
         }
     }
-
 
     @Override
     public void onSearch(String query) {
@@ -201,8 +156,9 @@ public class HomeActivity extends BaseActivity implements onSimpleSearchActionsL
     @Override
     public void onItemClicked(String item) {
         mSearchView.hide();
-        DialogUtility.showToastMessage(this, getString(R.string.searching_for, item), Toast.LENGTH_SHORT);
-        homeViewModel.getSearchResults(item);
+//        DialogUtility.showToastMessage(this, getString(R.string.searching_for, item), Toast.LENGTH_SHORT);
+        //homeViewModel.getSearchResults(item);
+        EventBus.getDefault().post(new SearchSuggestionClicked(item));
     }
 
     @Override

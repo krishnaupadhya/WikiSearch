@@ -12,7 +12,7 @@ import rx.Observable;
  * Created by Krishna Upadhya on 9/11/2017.
  */
 
-public interface HackerNewsService {
+public interface WikiService {
     String SERVICE_ENDPOINT = "https://en.wikipedia.org/w";
 
     @GET("/topstories.json?print=pretty")

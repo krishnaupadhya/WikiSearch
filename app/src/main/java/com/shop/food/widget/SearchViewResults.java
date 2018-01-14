@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import com.google.gson.JsonArray;
 import com.shop.food.interfaces.onSearchActionsListener;
-import com.shop.food.network.HackerNewsService;
+import com.shop.food.network.WikiService;
 import com.shop.food.network.ServiceFactory;
 import com.shop.food.utility.NetworkUtility;
 
@@ -70,7 +70,7 @@ public class SearchViewResults implements AdapterView.OnItemClickListener, AbsLi
             return;
         }
 
-        HackerNewsService service = ServiceFactory.createRetrofitService(HackerNewsService.class, HackerNewsService.SERVICE_ENDPOINT);
+        WikiService service = ServiceFactory.createRetrofitService(WikiService.class, WikiService.SERVICE_ENDPOINT);
         service.getSearchSuggestions(query)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

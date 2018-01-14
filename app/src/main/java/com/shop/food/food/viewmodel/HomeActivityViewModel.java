@@ -1,24 +1,16 @@
 package com.shop.food.food.viewmodel;
 
-import android.app.Activity;
 import android.databinding.ObservableField;
 import android.util.Log;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.shop.food.app.Constants;
 import com.shop.food.app.DatabaseController;
 import com.shop.food.common.viewmodel.BaseViewModel;
 import com.shop.food.food.listener.HomeListener;
 import com.shop.food.model.WikiList;
-import com.shop.food.network.HackerNewsService;
+import com.shop.food.network.WikiService;
 import com.shop.food.network.ServiceFactory;
 import com.shop.food.utility.LogUtility;
 import com.shop.food.utility.NetworkUtility;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import io.realm.Realm;
 import rx.Subscriber;
@@ -33,13 +25,11 @@ public class HomeActivityViewModel extends BaseViewModel {
     private final HomeListener homeListener;
     public ObservableField<Boolean> isProgressRingVisible;
     private String TAG = HomeActivityViewModel.class.getSimpleName();
-    private Activity mContext;
     public ObservableField<Boolean> isNewsListListVisible;
 
-    public HomeActivityViewModel(HomeListener homeListener, Activity activity) {
+    public HomeActivityViewModel(HomeListener homeListener) {
         this.isProgressRingVisible = new ObservableField<>(false);
         this.homeListener = homeListener;
-        this.mContext = activity;
         this.isNewsListListVisible = new ObservableField<>(false);
     }
 
@@ -60,7 +50,7 @@ public class HomeActivityViewModel extends BaseViewModel {
             return;
         }
 
-        HackerNewsService service = ServiceFactory.createRetrofitService(HackerNewsService.class, HackerNewsService.SERVICE_ENDPOINT);
+        WikiService service = ServiceFactory.createRetrofitService(WikiService.class, WikiService.SERVICE_ENDPOINT);
         service.getSearchResults(query)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
