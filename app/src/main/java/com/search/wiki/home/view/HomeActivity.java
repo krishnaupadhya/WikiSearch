@@ -16,7 +16,7 @@ import com.search.wiki.R;
 import com.search.wiki.common.view.BaseActivity;
 import com.search.wiki.databinding.HomeActivityBinding;
 import com.search.wiki.event.SearchSuggestionClicked;
-import com.search.wiki.home.view.fragment.HomeTabFragment;
+import com.search.wiki.home.view.fragment.HomeListFragment;
 import com.search.wiki.interfaces.onSearchListener;
 import com.search.wiki.interfaces.onSimpleSearchActionsListener;
 import com.search.wiki.widget.MaterialSearchView;
@@ -117,11 +117,11 @@ public class HomeActivity extends BaseActivity implements onSimpleSearchActionsL
 
 
             // Create a new Fragment to be placed in the activity layout
-            Fragment firstFragment = HomeTabFragment.newInstance();
+            Fragment firstFragment = HomeListFragment.newInstance();
 
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.home_frame, firstFragment, HomeTabFragment.class.getSimpleName()).commit();
+                    .add(R.id.home_frame, firstFragment, HomeListFragment.class.getSimpleName()).commit();
         }
     }
 
@@ -149,8 +149,6 @@ public class HomeActivity extends BaseActivity implements onSimpleSearchActionsL
     @Override
     public void onItemClicked(String item) {
         mSearchView.hide();
-//        DialogUtility.showToastMessage(this, getString(R.string.searching_for, item), Toast.LENGTH_SHORT);
-        //homeViewModel.getSearchResults(item);
         EventBus.getDefault().post(new SearchSuggestionClicked(item));
     }
 

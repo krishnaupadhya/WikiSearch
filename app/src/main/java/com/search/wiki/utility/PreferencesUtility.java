@@ -7,12 +7,8 @@ import com.search.wiki.app.WikiSearchApplication;
 
 public class PreferencesUtility {
 
-    private static final String PREF_NAME = "com.urban.piper.prefs";
-    public static final String PREF_KEY_SESSION_TOKEN = "pref_key_session_token";
-    public static final String PREF_KEY_SESSION_NICK_NAME = "pref_key_session_nick_name";
-    public static final String PREF_KEY_EMAIL = "pref_key_email";
-    public static final String PREF_KEY_PROFILE_IMAGE_URL = "pref_key_profile_image_url";
-    public static final String PREF_KEY_GCM_REGISTRATION_ID = "pref_key_registration_id";
+    private static final String PREF_NAME = "com.search.wiki";
+    public static final String PREF_KEY_RECENT_SEARCH = "pref_key_recent_search";
 
 
 

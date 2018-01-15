@@ -2,6 +2,7 @@ package com.search.wiki.home.view.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,9 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.search.wiki.R;
+import com.search.wiki.app.Constants;
 import com.search.wiki.app.DatabaseController;
 import com.search.wiki.common.view.BaseFragment;
-import com.search.wiki.databinding.HomeTabFragmentBinding;
+import com.search.wiki.common.view.WebViewActivity;
+import com.search.wiki.databinding.HomeListFragmentBinding;
+import com.search.wiki.event.PageItemClickEvent;
 import com.search.wiki.event.SearchSuggestionClicked;
 import com.search.wiki.home.adapters.PageListAdapter;
 import com.search.wiki.home.listener.HomeListener;
@@ -33,33 +37,38 @@ import io.realm.RealmResults;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeTabFragment extends BaseFragment implements HomeListener {
+public class HomeListFragment extends BaseFragment implements HomeListener {
 
-    HomeTabFragmentBinding homeActivityBinding;
+    HomeListFragmentBinding homeListFragmentBinding;
     private HomeActivityViewModel homeTabViewModel;
     private PageListAdapter adapter;
     ArrayList<Pages> searchResultList;
 
-    public HomeTabFragment() {
+    public HomeListFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        homeActivityBinding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.home_tab_fragment, null, false);
+        homeListFragmentBinding = DataBindingUtil.inflate(LayoutInflater.from(getActivity()), R.layout.home_list_fragment, null, false);
         homeTabViewModel = new HomeActivityViewModel(this);
-        homeActivityBinding.setHomeViewModel(homeTabViewModel);
+        homeListFragmentBinding.setHomeViewModel(homeTabViewModel);
         EventBus.getDefault().register(this);
-        return homeActivityBinding.getRoot();
+        fetchCachedData();
+        return homeListFragmentBinding.getRoot();
     }
 
 
     private void fetchCachedData() {
-        RealmResults<Pages> pagesList = DatabaseController.getInstance().getPagesFromDb();
-        searchResultList = new ArrayList<Pages>();
-        searchResultList.addAll(pagesList);
-        setSearchAdapter(searchResultList);
+        RealmResults<WikiList> recentSearches = DatabaseController.getInstance().getPagesFromDb();
+        if (recentSearches != null && recentSearches.size() > 0 && recentSearches.get(0) != null
+                && recentSearches.get(0).getQuery() != null && recentSearches.get(0).getQuery().getPages() != null) {
+            searchResultList = new ArrayList<Pages>();
+            searchResultList.addAll(recentSearches.get(0).getQuery().getPages());
+            setSearchAdapter(searchResultList);
+        }
+
     }
 
     @Override
@@ -67,14 +76,8 @@ public class HomeTabFragment extends BaseFragment implements HomeListener {
         super.onAttach(context);
     }
 
-    @Override
-    public void onAttachFragment(Fragment childFragment) {
-        super.onAttachFragment(childFragment);
-        fetchCachedData();
-    }
-
     public static Fragment newInstance() {
-        return new HomeTabFragment();
+        return new HomeListFragment();
     }
 
     private void setSearchAdapter(ArrayList<Pages> pagesArrayList) {
@@ -83,9 +86,9 @@ public class HomeTabFragment extends BaseFragment implements HomeListener {
         } else {
             homeTabViewModel.setIsNewsListListVisible(true);
             adapter = new PageListAdapter(pagesArrayList);
-            homeActivityBinding.listNews.setAdapter(adapter);
-            homeActivityBinding.listNews.setLayoutManager(new LinearLayoutManager(getActivity()));
-            homeActivityBinding.listNews.setItemAnimator(new DefaultItemAnimator());
+            homeListFragmentBinding.listNews.setAdapter(adapter);
+            homeListFragmentBinding.listNews.setLayoutManager(new LinearLayoutManager(getActivity()));
+            homeListFragmentBinding.listNews.setItemAnimator(new DefaultItemAnimator());
         }
     }
 
@@ -97,9 +100,18 @@ public class HomeTabFragment extends BaseFragment implements HomeListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSearchEvent(SearchSuggestionClicked event) {
-        if (homeTabViewModel != null) {
-            homeTabViewModel.getSearchResults(event.getQuery());
-        }
+        if (getActivity() != null && !isDetached())
+            if (event != null && homeTabViewModel != null) {
+                homeTabViewModel.getSearchResults(event.getQuery());
+            }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPageItemEvent(PageItemClickEvent event) {
+        if (getActivity() != null && !isDetached())
+            if (event != null && homeTabViewModel != null) {
+                homeTabViewModel.getPageDetails(event.getPages().getPageid());
+            }
     }
 
     @Override
@@ -107,5 +119,14 @@ public class HomeTabFragment extends BaseFragment implements HomeListener {
         ArrayList<Pages> pages = new ArrayList<>();
         pages.addAll(wikiList.getQuery().getPages());
         setSearchAdapter(pages);
+    }
+
+    @Override
+    public void onPageDetailsResultSuccess(String pageUrl, String title) {
+        if (getActivity() == null || isDetached()) return;
+        Intent intent = new Intent(getActivity(), WebViewActivity.class);
+        intent.putExtra(Constants.KEY_INTENT_WEB_URL, pageUrl);
+        intent.putExtra(Constants.KEY_INTENT_PAGE_TITLE, title);
+        startActivity(intent);
     }
 }

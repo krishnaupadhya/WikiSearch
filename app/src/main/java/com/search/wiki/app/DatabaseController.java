@@ -6,6 +6,7 @@ import android.app.Application;
 import android.app.Fragment;
 
 import com.search.wiki.model.Pages;
+import com.search.wiki.model.WikiList;
 
 import java.util.Hashtable;
 
@@ -68,25 +69,6 @@ public class DatabaseController {
     }
 
 
-//    public RealmResults<FoodInfo> getArticlesFromDb() {
-//        RealmResults<FoodInfo> articlesList = realm.where(FoodInfo.class).findAll();
-//        return articlesList;
-//    }
-//
-//    public FoodInfo getArticleById(String id) {
-//        FoodInfo items = realm.where(FoodInfo.class).equalTo("articleId", id).findFirst();
-//
-//        return items;
-//    }
-//
-//
-//    public RealmResults<FoodInfo> getArticleByCheckout() {
-//        RealmResults<FoodInfo> foodItems = realm.where(FoodInfo.class).greaterThan("quantity", 0).findAll();
-//
-//        return foodItems;
-//    }
-
-
     public static void resetRealm() {
         if (instance != null) {
             instance = null;
@@ -94,9 +76,8 @@ public class DatabaseController {
     }
 
 
+    public RealmResults<WikiList> getPagesFromDb() {
+        return realm.where(WikiList.class).findAll();
 
-    public RealmResults<Pages> getPagesFromDb() {
-        RealmResults<Pages> pagesList = realm.where(Pages.class).findAll();
-        return pagesList;
     }
 }

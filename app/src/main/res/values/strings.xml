@@ -8,4 +8,19 @@
     <string name="offered_by_hn">HN</string>
     <string name="search">Search</string>
     <string name="searching_for">Searching for %s</string>
+    <string name="recent_search">Recent search results for %s</string>
+    <!--article color code-->
+    <string-array name="color_codes">
+        <item>#ef0c0c</item>
+        <item>#4366ff</item>
+        <item>#32b799</item>
+        <item>#b524f2</item>
+        <item>#28ce02</item>
+        <item>#c10808</item>
+        <item>#ff20f7</item>
+        <item>#3dc0eb</item>
+        <item>#ff7200</item>
+        <item>#3cec98</item>
+        <item>#c1337f</item>
+    </string-array>
 </resources>

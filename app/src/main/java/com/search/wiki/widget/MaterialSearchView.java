@@ -34,10 +34,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.search.wiki.R;
+import com.search.wiki.event.SearchSuggestionClicked;
 import com.search.wiki.interfaces.onSearchActionsListener;
 import com.search.wiki.interfaces.onSearchListener;
 import com.search.wiki.interfaces.onSimpleSearchActionsListener;
 import com.search.wiki.utility.AppUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 public class MaterialSearchView extends FrameLayout implements View.OnClickListener, onSearchActionsListener {
@@ -170,6 +173,8 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
                     final String query = getSearchQuery();
                     if (!TextUtils.isEmpty(query) && mOnSearchListener != null) {
                         mOnSearchListener.onSearch(query);
+                        EventBus.getDefault().post(new SearchSuggestionClicked(query));
+                        hide();
                     }
                     return true;
                 }

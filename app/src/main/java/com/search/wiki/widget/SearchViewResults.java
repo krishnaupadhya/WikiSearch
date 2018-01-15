@@ -87,7 +87,7 @@ public class SearchViewResults implements AdapterView.OnItemClickListener, AbsLi
                     public final void onNext(JsonArray response) {
                         JsonArray res = response;
                         Log.e(TAG, "response  " + res.toString());
-                        if(response!=null && !TextUtils.isEmpty(response.toString())){
+                        if (response != null && !TextUtils.isEmpty(response.toString())) {
                             JSONArray jArray = null;
                             try {
                                 jArray = new JSONArray(response.toString());
@@ -113,8 +113,6 @@ public class SearchViewResults implements AdapterView.OnItemClickListener, AbsLi
                         }
                     }
                 });
-
-
     }
 
     public void setListView(ListView listView) {

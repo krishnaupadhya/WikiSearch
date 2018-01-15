@@ -23,8 +23,7 @@
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:gravity="center_vertical"
-            android:onClick="@{itemPageViewModel::onItemClick}"
-            android:padding="@dimen/padding_8dp">
+            android:onClick="@{itemPageViewModel::onItemClick}">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/image_view"
@@ -32,26 +31,30 @@
                 android:layout_height="@dimen/dimen_70dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_margin="@dimen/padding_8dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/placeholder_menuprofile"
                 bind:imageUrl="@{itemPageViewModel.image}" />
 
-            <ImageView
-                android:layout_width="@dimen/dimen_15dp"
-                android:layout_height="@dimen/dimen_15dp"
-                android:layout_alignParentStart="true"
+
+            <View
+                android:id="@+id/dash_view"
+                android:layout_width="@dimen/dimen_5dp"
+                android:layout_height="@dimen/dimen_80dp"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_dot" />
+                bind:colorCode="@{itemPageViewModel.colorCode}" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dimen_10dp"
                 android:layout_toLeftOf="@id/image_view"
-                android:gravity="center_vertical"
+                android:layout_toRightOf="@id/dash_view"
+                android:gravity="center_vertical|left"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/dimen_5dp"
-                android:paddingLeft="@dimen/dimen_20dp"
                 android:paddingRight="@dimen/dimen_10dp"
                 android:paddingTop="@dimen/dimen_5dp">
 
@@ -81,7 +84,6 @@
                     android:textSize="14sp" />
 
             </LinearLayout>
-
 
         </RelativeLayout>
 

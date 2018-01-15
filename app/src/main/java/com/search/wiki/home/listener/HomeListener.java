@@ -6,5 +6,6 @@ import com.search.wiki.model.WikiList;
 
 public interface HomeListener {
     void onSearchResultSuccess(WikiList wikiList);
+    void onPageDetailsResultSuccess(String pageUrl, String url);
 
 }

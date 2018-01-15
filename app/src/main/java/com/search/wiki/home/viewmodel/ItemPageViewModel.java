@@ -4,8 +4,15 @@ import android.databinding.BaseObservable;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.search.wiki.R;
+import com.search.wiki.app.WikiSearchApplication;
+import com.search.wiki.event.PageItemClickEvent;
 import com.search.wiki.model.Pages;
 import com.search.wiki.utility.StringUtility;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
 
 public class ItemPageViewModel extends BaseObservable {
 
@@ -38,6 +45,18 @@ public class ItemPageViewModel extends BaseObservable {
             return StringUtility.EMPTY;
     }
 
+
+    public String getColorCode() {
+
+        String[] colorList = WikiSearchApplication.getInstance().getResources().getStringArray(R.array.color_codes);
+        if (colorList != null && colorList.length > 0) {
+            int index = pagePosition % 10;
+            return colorList[index];
+        }
+        return "#ff7200";
+
+    }
+
     public String getImage() {
         if (pageDetails.getThumbnail() != null && !TextUtils.isEmpty(pageDetails.getThumbnail().getSource()))
             return pageDetails.getThumbnail().getSource();
@@ -52,9 +71,8 @@ public class ItemPageViewModel extends BaseObservable {
     }
 
     public void onItemClick(View view) {
-//        if (pageDetails != null && !TextUtils.isEmpty(pageDetails.getType()) && pageDetails.getType().equals(Constants.TITLE_COMMENT))
-//            return;
-//        EventBus.getDefault().post(new NewsClickEvent(pageDetails, pagePosition));
+
+        EventBus.getDefault().post(new PageItemClickEvent(pageDetails, pagePosition));
     }
 
 }

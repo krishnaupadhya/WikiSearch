@@ -2,8 +2,11 @@ package com.search.wiki.utility;
 
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.search.wiki.network.ImageLoader;
 
@@ -23,6 +26,12 @@ public class DataBindingUtility {
     @BindingAdapter({"bind:imageUrl"})
     public static void loadImage(ImageView imageView, String imageUrl) {
         ImageLoader.loadImage(imageView, imageUrl);
+    }
+
+
+    @BindingAdapter({"bind:colorCode"})
+    public static void setColorCode(View view, String colorCode) {
+        view.setBackgroundColor(Color.parseColor(colorCode));
     }
 
 
