@@ -41,7 +41,7 @@ public class HomeActivityViewModel extends BaseViewModel {
 
     public HomeActivityViewModel(HomeListener homeListener) {
         this.isProgressRingVisible = new ObservableField<>(false);
-        this.recentSearchText = new ObservableField<>(WikiSearchApplication.getInstance().getString(R.string.recent_search, SharedPreferenceManager.getRecentSearchKey()));
+        this.recentSearchText = new ObservableField<>(SharedPreferenceManager.getRecentSearchKey());
         this.homeListener = homeListener;
         this.isNewsListListVisible = new ObservableField<>(false);
     }
@@ -56,7 +56,7 @@ public class HomeActivityViewModel extends BaseViewModel {
 
 
     public void setRecentSearchText(String recentSearchText) {
-        this.recentSearchText.set(WikiSearchApplication.getInstance().getString(R.string.recent_search, recentSearchText));
+        this.recentSearchText.set(recentSearchText);
     }
 
     public void getSearchResults(String query) {
@@ -144,7 +144,7 @@ public class HomeActivityViewModel extends BaseViewModel {
                                         if (pageIdObject != null) {
                                             String pageUrl = pageIdObject.getString(Constants.KEY_FULL_URL);
                                             if (!TextUtils.isEmpty(pageUrl))
-                                                homeListener.onPageDetailsResultSuccess(pageUrl,pageIdObject.getString(Constants.KEY_TITLE));
+                                                homeListener.onPageDetailsResultSuccess(pageUrl, pageIdObject.getString(Constants.KEY_TITLE));
                                         }
                                     }
                                 }

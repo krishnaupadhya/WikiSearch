@@ -36,27 +36,5 @@
         <item name="colorAccent">@color/white</item> <!-- Whatever color you want-->
     </style>
 
-    <style name="HNews.Card" parent="CardView">
-        <item name="contentPadding">0dp</item>
-        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
-        <item name="cardPreventCornerOverlap">false</item>
-        <item name="android:background">@drawable/shape_card_background_default</item>
-    </style>
-
-
-    <style name="HNews.FeedItem" parent="None">
-        <item name="android:background">@drawable/selector_card_clickable</item>
-    </style>
-
-
-    <style name="HNews.List" parent="None">
-        <item name="android:choiceMode">singleChoice</item>
-        <item name="android:clipToPadding">false</item>
-    </style>
-
-    <style name="RatingBar" parent="Theme.AppCompat">
-        <item name="colorControlNormal">@color/white</item>
-        <item name="colorControlActivated">@color/colorAccent</item>
-    </style>
 
 </resources>

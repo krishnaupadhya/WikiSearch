@@ -24,17 +24,14 @@
             android:textSize="28sp"
             android:textStyle="bold" />
 
-
         <ImageView
             android:id="@+id/image_logo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dimen_20dp"
             android:src="@drawable/whack_google_earth" />
 
-
     </LinearLayout>
-
-
 
 
 </RelativeLayout>

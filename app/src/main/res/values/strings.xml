@@ -8,7 +8,7 @@
     <string name="offered_by_hn">HN</string>
     <string name="search">Search</string>
     <string name="searching_for">Searching for %s</string>
-    <string name="recent_search">Recent search results for %s</string>
+    <string name="recent_search">Recent search results for </string>
     <!--article color code-->
     <string-array name="color_codes">
         <item>#ef0c0c</item>
